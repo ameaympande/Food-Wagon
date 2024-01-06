@@ -1,6 +1,7 @@
-import { MapPin, Search, UserRound } from "lucide-react";
+import { MapPin, Search, UserIcon, UserRound } from "lucide-react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Button from "../layout/Button";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -33,16 +34,15 @@ const Navbar = () => {
               placeholder="Search food"
             />
           </div>
-          <div className=" items-center">
-            <button
+          <div className="items-center">
+            <Button
               onClick={() => {
                 navigate("/signin");
               }}
-              className="shadow-2xl border-red flex flex-row bg-bg-primary text-white px-4 py-2 rounded-md hover:bg-primary"
-            >
-              <UserRound size={18} color="#ffb512" />
-              <span className="ml-4">Login</span>
-            </button>
+              buttonText="Login"
+              userIcon={UserIcon}
+              color="#ffb512"
+            />
           </div>
         </div>
       </div>

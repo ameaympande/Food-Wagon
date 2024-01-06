@@ -1,8 +1,14 @@
 import React from "react";
-import Navbar from "./Navbar";
+import Navbar from "./homePage/Navbar";
+import Body from "./homePage/MainSection";
 
 const Home = () => {
-  return <Navbar />;
+  return (
+    <>
+      <Navbar />
+      <Body />
+    </>
+  );
 };
 
 export default Home;
