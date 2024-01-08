@@ -1,46 +1,80 @@
 import { MapPin, UserIcon, AlignJustify } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../layout/Button";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const [isLogin, setLoggedIn] = useState(false);
+  const sidebarRef = useRef(null);
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
   };
+
+  const handleClickOutside = (event) => {
+    if (
+      isSidebarOpen &&
+      sidebarRef.current &&
+      !sidebarRef.current.contains(event.target)
+    ) {
+      setSidebarOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [isSidebarOpen]);
 
   return (
     <div className="bg-bg-primary">
       <div className="p-3 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <div className="bg-transparent">
-            <img className="h-16 cover" src="logo.png" alt="Logo" />
+            <img
+              className="h-16 w-auto object-cover"
+              src="logo.png"
+              alt="Logo"
+            />
           </div>
+
           <div className="ml-2 font-bungee text-xl">FoodWagon</div>
         </div>
-
-        <div className="flex items-center ml-2 md:hidden">
+        <div
+          ref={sidebarRef}
+          className="relative flex items-center ml-2 md:hidden"
+        >
           <Button onClick={toggleSidebar} userIcon={AlignJustify} />
-        </div>
 
-        {/* Sidebar */}
-        {isSidebarOpen && (
-          <div className="md:hidden fixed inset-0 bg-white bg-opacity-90 z-50">
-            <div className="p-4">
-              <Button
+          {isSidebarOpen && (
+            <div className="absolute top-10 right-0 flex flex-col items-center bg-white bg-opacity-90 p-4 gap-5 bg-bg-primary">
+              <p
                 onClick={() => {
                   navigate("/signin");
                 }}
-                buttonText="Login"
-                userIcon={UserIcon}
-                color="#ffb512"
-              />
+                className="cursor-pointer text-primary font-bold hover:text-secondary"
+              >
+                <div className="flex">
+                  <UserIcon />
+                  <span className="ml-2">Login</span>
+                </div>
+              </p>
+              <p
+                onClick={() => {
+                  navigate("/another-link");
+                }}
+                className="cursor-pointer text-primary font-bold hover:text-secondary"
+              >
+                Another Link
+              </p>
+              {/* Add other sidebar text items here */}
             </div>
-          </div>
-        )}
+          )}
+        </div>
 
         <div className="ml-14 flex-grow md:flex items-center gap-4 md:block hidden">
           <span className="text-black font-bold ">Deliver to:</span>
@@ -58,8 +92,7 @@ const Navbar = () => {
             />
           </div>
         </div>
-
-        <div className="md:block hidden">
+        <div className="md:block hidden mr-5">
           <Button
             onClick={() => {
               navigate("/signin");
