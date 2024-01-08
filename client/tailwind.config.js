@@ -6,6 +6,19 @@ module.exports = {
       bungee: ["Bungee Spice"],
       baloo2: ["Baloo Bhaijaan 2"],
     },
+    fontWeight: {
+      thin: "100",
+      hairline: "100",
+      extralight: "200",
+      light: "300",
+      normal: "400",
+      medium: "500",
+      semibold: "600",
+      bold: "700",
+      extrabold: "800",
+      "extra-bold": "800",
+      black: "900",
+    },
     screens: {
       sm: "480px",
       md: "620px",
@@ -19,7 +32,9 @@ module.exports = {
       secondary: "#fa6a41",
       "text-primary": "white",
       "text-secondary": "black",
+      "text-red": "#f07229",
       "bg-primary": "#fefeff",
+      "bg-hover-primary": "#fcebdf",
 
       slate: {
         50: "rgb(248, 250, 252)",
