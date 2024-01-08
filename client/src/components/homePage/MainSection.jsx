@@ -4,8 +4,8 @@ import { Bike, ShoppingBag, MapPin, Search } from "lucide-react";
 
 const MainSection = () => {
   return (
-    <div className="flex flex-row bg-primary h-96 overflow-hidden">
-      <div className="py-20 px-28 flex flex-col">
+    <div className="flex flex-row bg-primary h-screen ">
+      <div className="py-20 px-14 flex flex-col">
         <div className="text-text-primary text-6xl font-extrabold">
           Are you starving?
         </div>
@@ -62,7 +62,7 @@ const MainSection = () => {
       </div>
       <div className="flex-grow relative overflow-hidden">
         <img
-          className="absolute top-20 bottom-0 right-20 h-full"
+          className="absolute top-20 hover:top-0 transition-all ease-out delay-5000 h-full"
           src="/bowl.png"
           alt="Bowl"
         />

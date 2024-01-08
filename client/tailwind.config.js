@@ -34,7 +34,7 @@ module.exports = {
       "text-secondary": "black",
       "text-red": "#f07229",
       "bg-primary": "#fefeff",
-      "bg-hover-primary": "#fef0eb",
+      "bg-hover-primary": "#fcebdf",
 
       slate: {
         50: "rgb(248, 250, 252)",
