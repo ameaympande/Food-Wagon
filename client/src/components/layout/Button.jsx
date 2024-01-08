@@ -13,7 +13,7 @@ const Button = ({
   return (
     <button
       onClick={onClick}
-      className={`shadow-2xl border-red flex flex-row bg-bg-primary text-${textColor} px-4 py-2 rounded-md hover:bg-bg-hover-primary font-semibold ${style}`}
+      className={`shadow-2xl border-red flex flex-row bg-bg-primary text-${textColor} py-2 px-2 rounded-md hover:bg-bg-hover-primary font-semibold ${style}`}
     >
       {UserIcon && <UserIcon size={size} color={color} />}
       <span className="ml-4">{buttonText}</span>

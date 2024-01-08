@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "./Button";
-import Title from "./Tittle";
+import Title from "./Title";
 
 const DiscountCard = ({
   backgroundImage,
@@ -10,12 +10,11 @@ const DiscountCard = ({
 }) => {
   return (
     <div>
-      <div className="relative w-64 h-60 overflow-hidden rounded-xl">
+      <div className="relative w-64 h-60 overflow-hidden rounded-xl transform transition-transform duration-300 hover:scale-110 1xl:flex-col">
         <div
           className="w-full h-full bg-cover bg-center relative"
           style={{ backgroundImage: `url(${backgroundImage})` }}
         >
-          {/* Secondary Card in Bottom Left Corner */}
           <div className="absolute bottom-0 left-0 p-4 h-22 w-28 bg-primary rounded-tr-xl justify-center">
             <div className="flex ">
               <div className="text-text-primary text-5xl font-extrabold">

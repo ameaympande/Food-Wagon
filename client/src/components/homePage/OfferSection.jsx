@@ -1,5 +1,5 @@
 import React from "react";
-import DiscountCard from "../layout/DiscointCard";
+import DiscountCard from "../layout/DiscountCard";
 
 const offerData = [
   {
@@ -34,8 +34,8 @@ const offerData = [
 
 const OfferSection = () => {
   return (
-    <div className="flex justify-center w-screen">
-      <div className="flex flex-row mt-20 gap-5">
+    <div className="flex justify-center">
+      <div className="flex flex-col mt-20 gap-5 md:flex-row md:flex-wrap">
         {offerData.map((offer, index) => (
           <DiscountCard
             key={index}
