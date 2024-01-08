@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "./Button";
-import Title from "./Tittle";
+import Title from "./Title";
 
 const DiscountCard = ({
   backgroundImage,

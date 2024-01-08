@@ -32,6 +32,7 @@ module.exports = {
       primary: "#fdcc1a",
       secondary: "#fa6a41",
       "text-primary": "white",
+      "text-orange": "#ee7129",
       "text-secondary": "black",
       "text-red": "#f07229",
       "bg-primary": "#fefeff",

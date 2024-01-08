@@ -1,5 +1,5 @@
 import React from "react";
-import DiscountCard from "../layout/DiscointCard";
+import DiscountCard from "../layout/DiscountCard";
 
 const offerData = [
   {

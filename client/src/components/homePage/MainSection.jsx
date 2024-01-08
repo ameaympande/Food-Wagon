@@ -1,8 +1,10 @@
 import React from "react";
 import Button from "../layout/Button";
 import { Bike, ShoppingBag, MapPin, Search } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const MainSection = () => {
+  const navigate = useNavigate();
   return (
     <div className="flex flex-col md:flex-row bg-primary">
       <div className="md:w-2/3 py-10 px-6 md:py-20 md:px-14 flex flex-col">
@@ -33,18 +35,20 @@ const MainSection = () => {
           </div>
           <hr className="mt-4 text-slate-300" />
           <div className="mt-2 relative flex flex-col md:flex-row items-center">
-            <div className="md:absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+            <div className="md:absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none ">
               <MapPin size={18} color="#fa6a41" absoluteStrokeWidth />
             </div>
-            <input
-              className="ml-2 bg-bg-primary px-6 py-2 md:w-3/5 w-full md:pl-10 md:ml-6 mt-2 "
-              type="text"
-              placeholder="Enter your address"
-            />
+            <div className="ml-5 w-2/3">
+              <input
+                className="ml-2 bg-bg-primary px-6 py-2 md:w-3/5 w-full md:pl-10 md:ml-6 mt-2 "
+                type="text"
+                placeholder="Enter your address"
+              />
+            </div>
             <div className="md:ml-6 mt-4 md:mt-0">
               <Button
                 onClick={() => {
-                  // navigate("/signin");
+                  navigate("/signin");
                 }}
                 buttonText="Find Food"
                 userIcon={Search}
