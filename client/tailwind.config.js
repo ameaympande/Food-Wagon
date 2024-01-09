@@ -15,8 +15,8 @@ module.exports = {
       medium: "500",
       semibold: "600",
       bold: "700",
-      extrabold: "800",
-      "extra-bold": "800",
+      extrabold: "1000",
+      "extra-bold": "2200",
       black: "900",
     },
     screens: {
