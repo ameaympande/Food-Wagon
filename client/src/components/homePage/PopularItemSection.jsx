@@ -80,12 +80,14 @@ const data = [
 ];
 
 const PopularItemSection = () => {
-  const sliderRef = useRef(null);
   const settings = {
+    dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 5,
     slidesToScroll: 3,
+    autoplay: true,
+    autoplaySpeed: 3000,
     responsive: [
       {
         breakpoint: 1024,
@@ -101,22 +103,22 @@ const PopularItemSection = () => {
           slidesToScroll: 1,
         },
       },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
     ],
   };
 
-  const handleNext = () => {
-    sliderRef.current.slickNext();
-  };
-
-  const handlePrev = () => {
-    sliderRef.current.slickPrev();
-  };
   return (
-    <div className="bg-bg-hover-primary min-h-96 px-4 py-6">
+    <div className="bg-bg-hover-primary px-4 py-6 mb-20">
       <div className="text-4xl md:text-6xl font-extrabold text-center">
-        <p className="mb-4 mt-10">Popular items</p>
+        <p className="mb-10 mt-10">Popular items</p>
       </div>
-      <Slider {...settings}>
+      <Slider {...settings} className=" p-6 flex items-center justify-center">
         {data.map((item, key) => (
           <div key={key} className="mx-2">
             <div>
@@ -148,18 +150,6 @@ const PopularItemSection = () => {
           </div>
         ))}
       </Slider>
-      <button
-        className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md"
-        onClick={handlePrev}
-      >
-        {"<"}
-      </button>
-      <button
-        className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md"
-        onClick={handleNext}
-      >
-        {">"}
-      </button>
     </div>
   );
 };
