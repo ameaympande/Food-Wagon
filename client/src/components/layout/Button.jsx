@@ -9,6 +9,7 @@ const Button = ({
   size = 20,
   textColor = "slate-500",
   style,
+  textStyle = "ml-4",
 }) => {
   return (
     <button
@@ -16,7 +17,7 @@ const Button = ({
       className={`shadow-2xl border-red flex flex-row bg-bg-primary text-${textColor} py-2 px-2 rounded-md hover:bg-bg-hover-primary font-semibold ${style}`}
     >
       {UserIcon && <UserIcon size={size} color={color} />}
-      <span className="ml-4">{buttonText}</span>
+      <span className={textStyle}>{buttonText}</span>
     </button>
   );
 };
