@@ -32,7 +32,7 @@ const offerData = [
 ];
 const OrderSection = () => {
     return (
-        <div className="bg-[url('https://technext.github.io/foodwagon/v1.0.0/assets/img/gallery/cta-two-bg.png')] bg-no-repeat bg-center bg-cover mb-10 min-h-[350px] flex flex-col items-center justify-center">
+        <div className="bg-[url('https://technext.github.io/foodwagon/v1.0.0/assets/img/gallery/cta-two-bg.png')] bg-no-repeat bg-center bg-cover  min-h-[350px] flex flex-col items-center justify-center">
             <div className="text-text-primary text-4xl md:text-6xl font-extrabold text-center whitespace-pre-line">
                 <p>Are you ready to order </p>
                 <p>with the best deals? </p>
@@ -47,7 +47,7 @@ const OrderSection = () => {
                 color="black"
                 textColor="text-primary"
                 style="mt-7 bg-secondary hover:text-secondary "
-                textStyle="p-1 ml-3 px-4"
+                textStyle="p-1 ml-3 px-2"
             />
         </div>
     );

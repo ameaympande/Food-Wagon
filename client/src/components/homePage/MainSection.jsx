@@ -11,7 +11,7 @@ const MainSection = () => {
         <div className="text-text-primary text-4xl md:text-6xl font-extrabold">
           Are you starving?
         </div>
-        <div>Within a few clicks, find meals that are accessible near you.</div>
+        <p className="text-lg">Within a few clicks, find meals that are accessible near you.</p>
         <div className="flex flex-col mt-5 p-2 sm:p-4 bg-text-primary rounded-xl w-full md:w-4/5 mx-auto">
           <div className="flex flex-row  gap-2">
             <div>
