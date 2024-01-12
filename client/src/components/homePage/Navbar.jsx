@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../layout/Button";
 
-const Navbar = () => {
+const Navbar = ({ data }) => {
   const navigate = useNavigate();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
@@ -82,7 +82,13 @@ const Navbar = () => {
             <MapPin size={18} color="#ffb512" />
           </span>
           <span className="ml-2 text-grey ">Current location</span>
-          <span className="ml-2 text-black font-bold ">Your location</span>
+          {!data ? (
+            <span className="ml-2 text-black font-bold ">Your location</span>
+
+          ) : (
+
+            <span className="ml-2 text-black font-bold ">{data.address.village} , {data.address.state} , {data.address.state_district}</span>
+          )}
 
           <div className="ml-4 flex-grow ">
             <input
