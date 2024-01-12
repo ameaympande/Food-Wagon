@@ -6,6 +6,7 @@ import HDITsection from "./homePage/HDITsection";
 import PopularItemSection from "./homePage/PopularItemSection";
 import FeatureRestaurant from "./homePage/FeatureRestaurant";
 import OrderSection from "./homePage/OrderSection";
+import Footer from "./homePage/Footer";
 
 const Home = () => {
   return (
@@ -17,6 +18,7 @@ const Home = () => {
       <PopularItemSection />
       <FeatureRestaurant />
       <OrderSection />
+      <Footer />
     </>
   );
 };
