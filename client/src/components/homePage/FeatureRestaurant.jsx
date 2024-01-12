@@ -109,7 +109,7 @@ const FeatureRestaurant = () => {
               <img
                 src={item.itemImg}
                 alt={item.restaurantName}
-                className="w-full h-full rounded-2xl"
+                className="w-100 h-52 rounded-2xl"
               />
               <div className="absolute top-2 left-3 p-1 bg-primary rounded justify-center">
                 <div className="flex ">
