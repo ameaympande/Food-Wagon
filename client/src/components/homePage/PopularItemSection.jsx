@@ -114,7 +114,7 @@ const PopularItemSection = () => {
   };
 
   return (
-    <div className="bg-bg-hover-primary px-4 py-6 mb-20">
+    <div className="bg-bg-hover-primary px-4 py-6 ">
       <div className="text-4xl md:text-6xl font-extrabold text-center">
         <p className="mb-10 mt-10">Popular items</p>
       </div>
@@ -125,7 +125,7 @@ const PopularItemSection = () => {
               <img
                 src={item.itemImg}
                 alt={item.itemName}
-                className="w-48 h-48 rounded-2xl"
+                className="w-56 h-56 rounded-2xl"
               />
             </div>
             <div className="mt-5">
