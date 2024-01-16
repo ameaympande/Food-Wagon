@@ -26,15 +26,16 @@ const createNewUser = asyncHandler(async (req, res) => {
   const { firstName, lastName, email, password, phoneNumber, address } =
     req.body;
 
-  if (
-    !firstName ||
-    !lastName ||
-    !email ||
-    !password ||
-    !phoneNumber ||
-    !address
-  ) {
-    return res.status(400).json({ message: "All fields are required." });
+  if (!email) {
+    return res.status(400).json({ message: "Email is required." });
+  }
+  if (!password) {
+    return res.status(400).json({ message: "Password is required." });
+  }
+  if (password.length <= 6) {
+    return res
+      .status(400)
+      .json({ message: "Password must be at least 7 characters." });
   }
 
   const existingUser = await User.findOne({ email }).lean().exec();
@@ -64,9 +65,7 @@ const createNewUser = asyncHandler(async (req, res) => {
 
   if (user) {
     return res.status(201).json({
-      message: `User with name ${
-        firstName + " " + lastName
-      } has been created successfully.`,
+      message: `User with email ${email} has been created successfully.`,
     });
   } else {
     res.status(400).json({ message: "Invalid user data received." });

@@ -15,6 +15,7 @@ const Input = ({ name, type, placeholder, value, onChange, error }) => {
                     value={value}
                     onChange={onChange}
                     className={inputClass}
+                    autoComplete='current-password'
                 />
                 {type === 'password' && (
                     <div
@@ -25,7 +26,7 @@ const Input = ({ name, type, placeholder, value, onChange, error }) => {
                     </div>
                 )}
             </div>
-            {error && <p className="mt-1 text-sm font-semibold text-text-red">{error}</p>}
+            {name !== 'confirmpassword' && error && <p className="mt-1 text-sm font-semibold text-text-red">{error}</p>}
         </div>
 
     );
