@@ -26,13 +26,19 @@ const Signin = () => {
     let hasError = false;
     const newError = { email: "", password: "" };
 
-    if (!form.email || !/\S+@\S+\.\S+/.test(form.email)) {
+    if (!form.email) {
+      newError.email = "Email is required.";
+      hasError = true;
+    } else if (!/\S+@\S+\.\S+/.test(form.email)) {
       newError.email = "Invalid email address";
       hasError = true;
     }
 
-    if (!form.password || form.password.length <= 6) {
-      newError.password = "Password must be at least 7 characters";
+    if (!form.password) {
+      newError.password = "Password is required.";
+      hasError = true;
+    } else if (form.password.length <= 6) {
+      newError.password = "Password must be at least 6 characters.";
       hasError = true;
     }
 
