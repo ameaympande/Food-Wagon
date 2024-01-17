@@ -4,16 +4,19 @@ const path = require("path");
 const app = express();
 const mongoose = require("mongoose");
 const connectDB = require("./config/dbConn");
+const cors = require("cors");
+const corsOption = require("./config/corsOption");
 const { logger, logEvents } = require("./middleware/logger");
 const errorHandler = require("./middleware/errorHandler");
 const auth = require("./auth/authHelper");
-const { authenticateToken } = require("./middleware/jwtAuthenticate");
 
 const PORT = process.env.PORT;
 
 connectDB();
 
 app.use(logger);
+
+app.use(cors(corsOption));
 
 app.use(express.json());
 
