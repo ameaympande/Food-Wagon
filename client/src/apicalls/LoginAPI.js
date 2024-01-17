@@ -2,9 +2,7 @@ import axios from "axios";
 export const LoginAPI = async (form) => {
   const { email, password } = form;
 
-  const url = "https://total-home.onrender.com/";
-
-  console.log(url);
+  const url = "https://food-wagon-server.onrender.com/";
 
   try {
     const body = {
@@ -12,7 +10,7 @@ export const LoginAPI = async (form) => {
       password: password,
     };
 
-    const response = await axios.post(url + "auth/login", body);
+    const response = await axios.post(url + "login", body);
 
     if (response && response.status === 200) {
       return response.data.message;
