@@ -3,6 +3,7 @@ import { UserIcon } from "lucide-react";
 import React, { useState } from "react";
 import Input from "./layout/Input";
 import Button from "./layout/Button";
+import { LoginAPI } from "../apicalls/LoginAPI";
 
 const Signin = () => {
   const [form, setForm] = useState({
@@ -46,6 +47,8 @@ const Signin = () => {
       setError(newError);
     } else {
       console.log("Login Clicked.");
+      const res = LoginAPI(form);
+      console.log(res);
       // Add your login logic here
     }
   };
