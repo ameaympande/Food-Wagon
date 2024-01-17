@@ -1,3 +1,4 @@
+const colors = require("tailwindcss/colors");
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
@@ -34,7 +35,7 @@ module.exports = {
       "text-primary": "white",
       "text-orange": "#ee7129",
       "text-secondary": "black",
-      "text-red": "#f07229",
+      "text-red": "red",
       "bg-primary": "#fefeff",
       "bg-hover-primary": "#fcebdf",
 

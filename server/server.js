@@ -6,6 +6,8 @@ const mongoose = require("mongoose");
 const connectDB = require("./config/dbConn");
 const { logger, logEvents } = require("./middleware/logger");
 const errorHandler = require("./middleware/errorHandler");
+const auth = require("./auth/authHelper");
+const { authenticateToken } = require("./middleware/jwtAuthenticate");
 
 const PORT = process.env.PORT;
 
@@ -17,6 +19,7 @@ app.use(express.json());
 
 app.use("/", express.static(path.join(__dirname, "public")));
 
+app.post("/login", auth.login);
 app.use("/users", require("./routes/userRoutes"));
 app.use("/restaurant", require("./routes/restaurantRoutes"));
 app.use("/menuitem", require("./routes/menuItemRoutes"));
