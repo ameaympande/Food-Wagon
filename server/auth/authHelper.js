@@ -21,7 +21,7 @@ const login = asyncHandler(async (req, res) => {
   if (!user) {
     return res
       .status(400)
-      .json({ message: "User not found, please create a new account." });
+      .json({ error: "User not found, please create a new account." });
   }
 
   const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {

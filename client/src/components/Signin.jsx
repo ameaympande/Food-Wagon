@@ -1,9 +1,10 @@
 // Signin.js
 import { UserIcon } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "./layout/Input";
 import Button from "./layout/Button";
 import { LoginAPI } from "../apicalls/LoginAPI";
+import { BeatLoader } from "react-spinners"
 
 const Signin = () => {
   const [form, setForm] = useState({
@@ -15,6 +16,9 @@ const Signin = () => {
     password: ""
   });
 
+  const [loading, setLoading] = useState(false);
+  const [response, setResponse] = useState("");
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
@@ -22,8 +26,13 @@ const Signin = () => {
     setError({ ...error, [name]: "" });
   };
 
-  const handleLogin = (e) => {
+  useEffect(() => {
+    setResponse("");
+  }, [form])
+
+  const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
     let hasError = false;
     const newError = { email: "", password: "" };
 
@@ -44,12 +53,18 @@ const Signin = () => {
     }
 
     if (hasError) {
+      setLoading(false);
       setError(newError);
     } else {
-      console.log("Login Clicked.");
-      const res = LoginAPI(form);
-      console.log(res);
-      // Add your login logic here
+      try {
+        const res = await LoginAPI(form);
+        console.log(res);
+        setResponse(res.error);
+      } catch (error) {
+        console.error("Login failed:", error);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -79,14 +94,21 @@ const Signin = () => {
             error={error.password}
             onChange={handleInputChange}
           />
-          <div className="flex justify-center mb-4">
-            <Button
-              buttonText="Login"
-              color="#ffb512"
-              textColor="text-primary"
-              style="p-4 bg-secondary hover:text-secondary"
-              textStyle="ml-0 px-2"
-            />
+          {response
+            && <p className="mt-1 text-lg font-semibold text-text-red mb-4">{response}</p>
+          }
+          <div className="flex justify-center mb-6">
+            {loading ?
+              <BeatLoader color="white" className="mt-4" />
+              :
+              <Button
+                buttonText="Login"
+                color="#ffb512"
+                textColor="text-primary"
+                style="p-4 bg-secondary hover:text-secondary"
+                textStyle="ml-0 px-2"
+              />
+            }
           </div>
           <p className="text-center font-medium">
             Don't have an account?{" "}

@@ -1,7 +1,7 @@
 import axios from "axios";
+
 export const LoginAPI = async (form) => {
   const { email, password } = form;
-
   const url = "https://food-wagon-server.onrender.com/";
 
   try {
@@ -13,11 +13,11 @@ export const LoginAPI = async (form) => {
     const response = await axios.post(url + "login", body);
 
     if (response && response.status === 200) {
-      return response.data.message;
+      return response.data;
     } else {
       throw new Error(response.data.error);
     }
   } catch (err) {
-    console.error(err.response);
+    return err.response.data || "An error occurred during login.";
   }
 };
