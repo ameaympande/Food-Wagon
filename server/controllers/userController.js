@@ -12,7 +12,7 @@ const getAllUsers = asyncHandler(async (req, res) => {
   const users = await User.find().sort({ createdAt: -1 }).select("-password");
 
   if (!users?.length) {
-    return res.status(400).json({ message: "No users found." });
+    return res.status(400).json({ error: "No users found." });
   }
 
   res.json(users);
@@ -23,42 +23,37 @@ const getAllUsers = asyncHandler(async (req, res) => {
 // @access Private
 
 const createNewUser = asyncHandler(async (req, res) => {
-  const { firstName, lastName, email, password, phoneNumber, address } =
-    req.body;
+  const { email, password } = req.body;
 
   if (!email) {
-    return res.status(400).json({ message: "Email is required." });
+    return res.status(400).json({ error: "Email is required." });
   }
   if (!password) {
-    return res.status(400).json({ message: "Password is required." });
+    return res.status(400).json({ error: "Password is required." });
   }
   if (password.length <= 6) {
     return res
       .status(400)
-      .json({ message: "Password must be at least 7 characters." });
+      .json({ error: "Password must be at least 7 characters." });
   }
 
   const existingUser = await User.findOne({ email }).lean().exec();
 
   if (existingUser) {
-    return res.status(400).json({ message: "This email id is already exist." });
+    return res.status(400).json({ error: "This email id is already exist." });
   }
 
   if (!isValidEmail(email)) {
     return res
       .status(400)
-      .json({ message: "Please enter correct Email address." });
+      .json({ error: "Please enter correct Email address." });
   }
 
   const hashedPwd = await bcrypt.hash(password, 10);
 
   const userObj = {
-    firstName,
-    lastName,
     email,
     password: hashedPwd,
-    phoneNumber,
-    address,
   };
 
   const user = await User.create(userObj);
