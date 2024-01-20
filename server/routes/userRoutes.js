@@ -5,8 +5,8 @@ const authenticateToken = require("../middleware/jwtAuthenticate");
 
 router
   .route("/")
-  .get(authenticateToken, userController.getAllUsers)
-  .post(authenticateToken, userController.createNewUser)
+  .get(userController.getAllUsers)
+  .post(userController.createNewUser)
   .patch(authenticateToken, userController.updateUser)
   .delete(authenticateToken, userController.deleteUser);
 

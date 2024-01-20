@@ -36,6 +36,7 @@ module.exports = {
       "text-orange": "#ee7129",
       "text-secondary": "black",
       "text-red": "red",
+      "text-green": "green",
       "bg-primary": "#fefeff",
       "bg-hover-primary": "#fcebdf",
 
