@@ -5,8 +5,10 @@ import Input from "./layout/Input";
 import Button from "./layout/Button";
 import { LoginAPI } from "../apicalls/LoginAPI";
 import { BeatLoader } from "react-spinners"
+import { useNavigate } from "react-router-dom";
 
 const Signin = () => {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     email: "",
     password: ""
@@ -18,6 +20,7 @@ const Signin = () => {
 
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState("");
+  const [errorResponse, setErrorResponse] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -28,6 +31,7 @@ const Signin = () => {
 
   useEffect(() => {
     setResponse("");
+    setErrorResponse("");
   }, [form])
 
   const handleLogin = async (e) => {
@@ -59,7 +63,19 @@ const Signin = () => {
       try {
         const res = await LoginAPI(form);
         console.log(res);
-        setResponse(res.error);
+        if (res.error) {
+          setErrorResponse(res.error);
+        }
+        if (res.data.message) {
+          setResponse(res.data.message);
+          const token = res.data.token;
+          localStorage.setItem("token", token);
+
+          setTimeout(() => {
+            navigate("/");
+          }, 1000);
+
+        }
       } catch (error) {
         console.error("Login failed:", error);
       } finally {
@@ -94,13 +110,17 @@ const Signin = () => {
             error={error.password}
             onChange={handleInputChange}
           />
+          {errorResponse
+            && <p className="mt-1 text-lg font-semibold text-text-red mb-4">{errorResponse}</p>
+          }
           {response
-            && <p className="mt-1 text-lg font-semibold text-text-red mb-4">{response}</p>
+            && <p className="mt-1 text-lg font-semibold text-text-green mb-4">{response}</p>
           }
           <div className="flex justify-center mb-6">
             {loading ?
               <BeatLoader color="white" className="mt-4" />
               :
+              !response && !errorResponse &&
               <Button
                 buttonText="Login"
                 color="#ffb512"
