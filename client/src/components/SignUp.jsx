@@ -1,10 +1,14 @@
 // Signin.js
 import { UserIcon } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "./layout/Input";
 import Button from "./layout/Button";
+import { useNavigate } from "react-router-dom";
+import { SignUpAPI } from "../apicalls/SignUpAPI";
+import { BeatLoader } from "react-spinners";
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -16,6 +20,10 @@ const Signup = () => {
     confirmpassword: ""
   });
 
+  const [loading, setLoading] = useState(false);
+  const [response, setResponse] = useState("");
+  const [errorResponse, setErrorResponse] = useState("");
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
@@ -23,8 +31,15 @@ const Signup = () => {
     setError({ ...error, [name]: "" });
   };
 
-  const handleLogin = (e) => {
+
+  useEffect(() => {
+    setResponse("");
+    setErrorResponse("");
+  }, [form])
+
+  const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
     let hasError = false;
     const newError = { email: "", password: "" };
 
@@ -48,10 +63,30 @@ const Signup = () => {
     }
 
     if (hasError) {
+      setLoading(false);
       setError(newError);
     } else {
-      console.log("Login Clicked.");
-      // Add your login logic here
+      try {
+        const res = await SignUpAPI(form);
+        console.log(res);
+        if (res.data.error) {
+          setErrorResponse(res.data.error);
+        }
+        if (res.data.message) {
+          setResponse(res.data.message);
+
+          setTimeout(() => {
+            navigate("/signin");
+          }, 1000);
+
+        }
+      } catch (error) {
+        console.error("signin failed:", error);
+      } finally {
+        setLoading(false);
+      }
+
+
     }
   };
 
@@ -90,14 +125,25 @@ const Signup = () => {
             error={error.password}
             onChange={handleInputChange}
           />
-          <div className="flex justify-center mb-4">
-            <Button
-              buttonText="Sign Up"
-              color="#ffb512"
-              textColor="text-primary"
-              style="p-4 bg-secondary hover:text-secondary"
-              textStyle="ml-0 px-2"
-            />
+          {errorResponse
+            && <p className="mt-1 text-lg font-semibold text-text-red mb-4">{errorResponse}</p>
+          }
+          {response
+            && <p className="mt-1 text-lg font-semibold text-text-green mb-4">{response}</p>
+          }
+          <div className="flex justify-center mb-6">
+            {loading ?
+              <BeatLoader color="white" className="mt-4" />
+              :
+              !response && !errorResponse &&
+              <Button
+                buttonText="Sign up"
+                color="#ffb512"
+                textColor="text-primary"
+                style="p-4 bg-secondary hover:text-secondary"
+                textStyle="ml-0 px-2"
+              />
+            }
           </div>
           <p className="text-center font-medium">
             Already have an account?{" "}
