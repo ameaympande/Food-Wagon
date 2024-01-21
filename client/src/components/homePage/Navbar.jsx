@@ -2,11 +2,14 @@ import { MapPin, UserIcon, AlignJustify } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../layout/Button";
+import { useSelector } from "react-redux";
 
 const Navbar = ({ data }) => {
+  const profile = useSelector((state) => state.profile);
   const navigate = useNavigate();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
+  console.log(profile)
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
@@ -103,10 +106,11 @@ const Navbar = ({ data }) => {
             onClick={() => {
               navigate("/signin");
             }}
-            buttonText="Login"
+            buttonText={profile?.email ? profile.email : "Login"}
             userIcon={UserIcon}
             color="#ffb512"
           />
+
         </div>
       </div>
     </div>

@@ -6,8 +6,11 @@ import Button from "./layout/Button";
 import { LoginAPI } from "../apicalls/LoginAPI";
 import { BeatLoader } from "react-spinners"
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setEmail } from "../redux/features/profile/profileSlice";
 
 const Signin = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [form, setForm] = useState({
     email: "",
@@ -68,10 +71,13 @@ const Signin = () => {
         }
         if (res.data.message) {
           setResponse(res.data.message);
+          dispatch(setEmail(form.email));
+
           const token = res.data.token;
           localStorage.setItem("token", token);
 
           setTimeout(() => {
+            console.log("Dispatching email:", form.email);
             navigate("/");
           }, 1000);
 
