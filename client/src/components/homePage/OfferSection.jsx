@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DiscountCard from "../layout/DiscountCard";
 
 const offerData = [
@@ -32,11 +32,31 @@ const offerData = [
   },
 ];
 
+
+
 const OfferSection = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    if (!data?.length) {
+      reqOfferData();
+    }
+  }, [])
+
+  const reqOfferData = async () => {
+    try {
+      const response = await fetch("http://localhost:3500/restaurant/");
+      const responseData = await response.json();
+      setData(responseData?.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div className="flex justify-center">
       <div className="flex flex-col mt-20 gap-5 md:flex-row md:flex-wrap">
-        {offerData.map((offer, index) => (
+        {data.map((offer, index) => (
           <DiscountCard
             key={index}
             backgroundImage={offer.backgroundImage}

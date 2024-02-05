@@ -9,7 +9,6 @@ const Navbar = ({ data }) => {
   const navigate = useNavigate();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
-  console.log(profile)
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
@@ -74,7 +73,6 @@ const Navbar = ({ data }) => {
               >
                 Another Link
               </p>
-              {/* Add other sidebar text items here */}
             </div>
           )}
         </div>
