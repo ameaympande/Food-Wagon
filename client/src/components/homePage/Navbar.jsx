@@ -102,7 +102,8 @@ const Navbar = ({ data }) => {
         <div className="md:block hidden mr-5">
           <Button
             onClick={() => {
-              navigate("/signin");
+              if (!profile?.email)
+                navigate("/signin");
             }}
             buttonText={profile?.email ? profile.email : "Login"}
             userIcon={UserIcon}

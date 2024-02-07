@@ -56,7 +56,7 @@ const OfferSection = () => {
   return (
     <div className="flex justify-center">
       <div className="flex flex-col mt-20 gap-5 md:flex-row md:flex-wrap">
-        {data.map((offer, index) => (
+        {offerData.map((offer, index) => (
           <DiscountCard
             key={index}
             backgroundImage={offer.backgroundImage}

@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
 
-const orderSchema = mongooes.Schema(
+const orderSchema = mongoose.Schema(
   {
     customerId: {
-      type: mongoose.Schema.Types.objectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
     restaurantId: {
-      type: mongoose.Schema.Types.objectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Restaurant",
       required: true,
     },
@@ -20,7 +20,7 @@ const orderSchema = mongooes.Schema(
     items: [
       {
         MenuItemId: {
-          type: mongoose.Schema.Types.objectId,
+          type: mongoose.Schema.Types.ObjectId,
           ref: "MenuItem",
           required: true,
         },

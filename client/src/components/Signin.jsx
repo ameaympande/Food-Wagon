@@ -54,7 +54,7 @@ const Signin = () => {
     if (!form.password) {
       newError.password = "Password is required.";
       hasError = true;
-    } else if (form.password.length <= 6) {
+    } else if (form.password.length < 6) {
       newError.password = "Password must be at least 6 characters.";
       hasError = true;
     }
@@ -63,6 +63,7 @@ const Signin = () => {
       setLoading(false);
       setError(newError);
     } else {
+      setError(newError);
       try {
         const res = await LoginAPI(form);
         console.log(res);

@@ -26,7 +26,7 @@ app.post("/login", auth.login);
 app.use("/users", require("./routes/userRoutes"));
 app.use("/restaurant", require("./routes/restaurantRoutes"));
 app.use("/menuitem", require("./routes/menuItemRoutes"));
-// app.use("/order", require("./routes/orderRoutes"));
+app.use("/order", require("./routes/orderRoutes"));
 
 app.all("*", (req, res) => {
   res.status(404);
