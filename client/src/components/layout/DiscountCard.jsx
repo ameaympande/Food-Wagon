@@ -10,7 +10,7 @@ const DiscountCard = ({
 }) => {
   return (
     <div>
-      <div className="relative w-64 h-60 overflow-hidden rounded-xl transform transition-transform duration-300 hover:scale-110 1xl:flex-col">
+      <div className="relative w-64 h-60 overflow-hidden rounded-xl transform transition-transform duration-300 hover:scale-110 1xl:flex-col ml-5">
         <div
           className="w-full h-full bg-cover bg-center relative"
           style={{ backgroundImage: `url(${backgroundImage})` }}

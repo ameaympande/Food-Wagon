@@ -6,8 +6,11 @@ import Button from "./layout/Button";
 import { LoginAPI } from "../apicalls/LoginAPI";
 import { BeatLoader } from "react-spinners"
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setEmail, setUserId } from "../redux/features/profile/profileSlice";
 
 const Signin = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [form, setForm] = useState({
     email: "",
@@ -51,7 +54,7 @@ const Signin = () => {
     if (!form.password) {
       newError.password = "Password is required.";
       hasError = true;
-    } else if (form.password.length <= 6) {
+    } else if (form.password.length < 6) {
       newError.password = "Password must be at least 6 characters.";
       hasError = true;
     }
@@ -60,6 +63,7 @@ const Signin = () => {
       setLoading(false);
       setError(newError);
     } else {
+      setError(newError);
       try {
         const res = await LoginAPI(form);
         console.log(res);
@@ -68,10 +72,14 @@ const Signin = () => {
         }
         if (res.data.message) {
           setResponse(res.data.message);
+          if (res.data.userId) dispatch(setUserId(res.data.userId));
+          dispatch(setEmail(form.email));
+
           const token = res.data.token;
           localStorage.setItem("token", token);
 
           setTimeout(() => {
+            console.log("Dispatching email:", form.email);
             navigate("/");
           }, 1000);
 

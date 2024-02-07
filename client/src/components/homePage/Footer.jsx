@@ -4,6 +4,8 @@ import React from 'react';
 const cities = ["Pune", "Nagpur", "Yavatmal", "Nashik"];
 
 const Footer = () => {
+    const date = new Date();
+    const currentYear = date.getFullYear();
     return (
         <footer className="bg-text-secondary text-text-primary p-8">
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
@@ -76,7 +78,7 @@ const Footer = () => {
             </div>
 
             <div className=" mt-8 text-center">
-                <p>All rights Reserved © Ameay P, 2024</p>
+                <p>All rights Reserved ©FoodWagon {currentYear}</p>
             </div>
         </footer>
     );

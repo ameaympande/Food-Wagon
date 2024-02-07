@@ -1,6 +1,5 @@
 import React from "react";
-import Button from "./Button";
-import Title from "./Title"; // Assuming it's Title, not Tittle
+
 
 const WorkCard = ({ backgroundImage, title, content }) => {
   return (

@@ -17,6 +17,10 @@ const menuItemSchema = new mongoose.Schema(
       enum: ["starter", "main course", "slider", "dessert", "special"],
       default: "",
     },
+    backgroundImage: {
+      type: String,
+      contentType: String,
+    },
   },
   { timestamps: true }
 );

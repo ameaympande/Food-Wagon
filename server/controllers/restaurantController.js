@@ -31,6 +31,9 @@ const createRestaurant = asyncHandler(async (req, res) => {
     address: { street, city, state, postalCode, country },
     contact: { phoneNumber, email },
     menu,
+    discountPercentage,
+    offerDaysLeft,
+    backgroundImage,
   } = req.body;
 
   if (
@@ -102,12 +105,24 @@ const createRestaurant = asyncHandler(async (req, res) => {
       email,
     },
     menu: menuItems,
+    discountPercentage,
+    offerDaysLeft,
+    backgroundImage,
   });
 
   if (!isValidEmail(email)) {
     return res
       .status(400)
       .json({ message: "Please enter a correct Email address." });
+  }
+
+  if (req.file) {
+    const backgroundImage = {
+      data: req.file.buffer,
+      contentType: req.file.mimetype,
+    };
+
+    newRestaurant.backgroundImage = backgroundImage;
   }
 
   const savedRestaurant = await newRestaurant.save();
@@ -212,6 +227,14 @@ const updateRestaurant = asyncHandler(async (req, res) => {
         }
       }
     }
+  }
+  if (req.file) {
+    const backgroundImage = {
+      data: req.file.buffer,
+      contentType: req.file.mimetype,
+    };
+
+    existingRestaurant.backgroundImage = backgroundImage;
   }
 
   const updatedRestaurant = await existingRestaurant.save();

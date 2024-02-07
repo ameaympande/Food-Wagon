@@ -7,9 +7,9 @@ import PopularItemSection from "./homePage/PopularItemSection";
 import FeatureRestaurant from "./homePage/FeatureRestaurant";
 import OrderSection from "./homePage/OrderSection";
 import Footer from "./homePage/Footer";
-import weatherCall from "../apicalls/LocationAPI";
 
 const Home = () => {
+  const token = localStorage.getItem("token") || null;
   const [location, setLocation] = useState({
     longitude: null,
     latitude: null
@@ -29,7 +29,6 @@ const Home = () => {
         latitude: latitude,
         longitude: longitude
       });
-      console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
     }
 
     function error() {
@@ -38,9 +37,11 @@ const Home = () => {
   }, [])
 
   useEffect(() => {
-    // getWeather(location)
     handleConvert(location.latitude, location.longitude)
-  }, [location])
+    if (!token) {
+      localStorage.removeItem("reduxState");
+    }
+  }, [location], [])
 
   const handleConvert = async (latitude, longitude) => {
     try {

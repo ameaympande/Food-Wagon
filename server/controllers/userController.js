@@ -61,6 +61,7 @@ const createNewUser = asyncHandler(async (req, res) => {
   if (user) {
     return res.status(201).json({
       message: `User with email ${email} has been created successfully.`,
+      userId: user._id,
     });
   } else {
     res.status(400).json({ message: "Invalid user data received." });

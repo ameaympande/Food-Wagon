@@ -2,8 +2,10 @@ import { MapPin, UserIcon, AlignJustify } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../layout/Button";
+import { useSelector } from "react-redux";
 
 const Navbar = ({ data }) => {
+  const profile = useSelector((state) => state.profile);
   const navigate = useNavigate();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
@@ -71,7 +73,6 @@ const Navbar = ({ data }) => {
               >
                 Another Link
               </p>
-              {/* Add other sidebar text items here */}
             </div>
           )}
         </div>
@@ -101,12 +102,14 @@ const Navbar = ({ data }) => {
         <div className="md:block hidden mr-5">
           <Button
             onClick={() => {
-              navigate("/signin");
+              if (!profile?.email)
+                navigate("/signin");
             }}
-            buttonText="Login"
+            buttonText={profile?.email ? profile.email : "Login"}
             userIcon={UserIcon}
             color="#ffb512"
           />
+
         </div>
       </div>
     </div>
