@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const OrderPopUp = () => {
-    const [showModal, setShowModal] = useState(true);
+    const [showModal, setShowModal] = useState(false);
 
     return (
         <>

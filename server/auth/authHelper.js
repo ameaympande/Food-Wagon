@@ -28,7 +28,9 @@ const login = asyncHandler(async (req, res) => {
     expiresIn: "24h",
   });
 
-  res.json({ data: { message: "Login success", token: token } });
+  res.json({
+    data: { message: "Login success", token: token, userId: user._id },
+  });
 });
 
 module.exports = {

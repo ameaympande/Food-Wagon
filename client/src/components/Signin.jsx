@@ -7,7 +7,7 @@ import { LoginAPI } from "../apicalls/LoginAPI";
 import { BeatLoader } from "react-spinners"
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setEmail } from "../redux/features/profile/profileSlice";
+import { setEmail, setUserId } from "../redux/features/profile/profileSlice";
 
 const Signin = () => {
   const dispatch = useDispatch();
@@ -72,6 +72,7 @@ const Signin = () => {
         }
         if (res.data.message) {
           setResponse(res.data.message);
+          if (res.data.userId) dispatch(setUserId(res.data.userId));
           dispatch(setEmail(form.email));
 
           const token = res.data.token;

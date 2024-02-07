@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const profileSlice = createSlice({
   name: "profile",
   initialState: {
+    userId: "",
     email: "",
     firstName: "",
     lastName: "",
@@ -11,6 +12,9 @@ export const profileSlice = createSlice({
     roles: "customer",
   },
   reducers: {
+    setUserId: (state, action) => {
+      state.userId = action.payload;
+    },
     setEmail: (state, action) => {
       state.email = action.payload;
     },
@@ -33,6 +37,7 @@ export const profileSlice = createSlice({
 });
 
 export const {
+  setUserId,
   setEmail,
   setFirstName,
   setLastName,
