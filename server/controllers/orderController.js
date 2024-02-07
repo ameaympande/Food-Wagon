@@ -64,7 +64,32 @@ const createNewOrder = asyncHandler(async (req, res) => {
     });
   }
 });
+
+// @desc Delete Order
+// @route DELETE /order
+// @access Private
+
+const deleteOrder = asyncHandler(async (req, res) => {
+  const { id } = req.body;
+
+  if (!id) {
+    res.status(400).json({ message: "Order Id is required." });
+  }
+
+  const order = await Order.findById(id).exec();
+
+  if (!order) {
+    res.status(404).json({ message: "Order not found." });
+  }
+
+  const message = `Order with id ${order._id} has been deleted.`;
+  await order.deleteOne();
+
+  res.status(200).json({ message: message });
+});
+
 module.exports = {
   getAllOrders,
   createNewOrder,
+  deleteOrder,
 };

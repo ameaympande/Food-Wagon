@@ -38,3 +38,6 @@
 20240208	00:12:23	71900ca3-8101-48a2-ba31-24637a65a381	POST	/order	undefined
 20240208	00:13:25	004d9b3f-ff1d-45fc-b813-65400ef35f54	POST	/order	undefined
 20240208	00:13:30	3a838774-1316-45f6-b5da-7b6e047bf1b5	GET	/order	undefined
+20240208	00:19:01	8cb48e2e-a14d-4234-a80e-2e842c00a231	DELETE	/order	undefined
+20240208	00:20:57	ee19c3aa-4a8b-47e9-aef0-34c533abd107	DELETE	/order	undefined
+20240208	00:21:02	eeac382d-2a63-4498-851c-e862643a2cf7	GET	/order	undefined
