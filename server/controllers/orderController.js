@@ -65,6 +65,45 @@ const createNewOrder = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc Update Order
+// @route UPDATE /order
+// @access Private
+
+const updateOrder = asyncHandler(async (req, res) => {
+  const { orderId, items, orderStatus } = req.body;
+
+  if (!orderId) {
+    return res.status(400).json({
+      message: "OrderId is required.",
+    });
+  }
+  if (!items || !items.length) {
+    return res.status(400).json({
+      message: "Please add at least 1 item to update the order.",
+    });
+  }
+
+  const order = await Order.findById(orderId).exec();
+
+  if (!order) {
+    return res.status(404).json({
+      message: "Order not found.",
+    });
+  }
+
+  if (orderStatus) {
+    order.orderStatus = orderStatus;
+  }
+  order.items = items;
+
+  const updatedOrder = await order.save();
+
+  res.status(200).json({
+    message: `${updatedOrder._id} updated.`,
+    updatedOrder: updatedOrder,
+  });
+});
+
 // @desc Delete Order
 // @route DELETE /order
 // @access Private
@@ -91,5 +130,6 @@ const deleteOrder = asyncHandler(async (req, res) => {
 module.exports = {
   getAllOrders,
   createNewOrder,
+  updateOrder,
   deleteOrder,
 };
