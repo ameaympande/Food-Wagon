@@ -9,10 +9,19 @@ const mongoose = require("mongoose");
 // @access Private
 
 const getRestaurant = asyncHandler(async (req, res) => {
-  const restaurants = await Restaurant.find()
-    .populate("menu")
-    .sort({ createdAt: -1 })
-    .exec();
+  const { id } = req.params;
+
+  if (id) {
+    const restaurant = await Restaurant.findById(id).populate("menu").exec();
+
+    if (!restaurant) {
+      res.status(400).json({ message: "Restaurant not found." });
+    }
+
+    return res.json({ data: restaurant });
+  }
+
+  const restaurants = await Restaurant.find().populate("menu").exec();
 
   if (!restaurants.length) {
     return res.status(400).json({ message: "No restaurant found near you." });

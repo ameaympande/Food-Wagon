@@ -16,10 +16,8 @@ const Home = () => {
   });
   const [data, setData] = useState(null);
   useEffect(() => {
-    if (navigator.geolocation) {
+    if (!location && navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(success, error);
-    } else {
-      console.log("Geolocation not supported");
     }
 
     function success(position) {
@@ -37,7 +35,9 @@ const Home = () => {
   }, [])
 
   useEffect(() => {
-    handleConvert(location.latitude, location.longitude)
+    if (!location) {
+      handleConvert(location.latitude, location.longitude)
+    }
     if (!token) {
       localStorage.removeItem("reduxState");
     }

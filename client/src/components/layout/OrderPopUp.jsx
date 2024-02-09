@@ -1,14 +1,48 @@
-import React, { useState } from "react";
+import { X } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { GetRestaurantsAPI } from "../../apicalls/GetRestaurantsAPI";
 
-const OrderPopUp = () => {
-    const [showModal, setShowModal] = useState(false);
+const OrderPopUp = ({ showModal, setShowModal, itemName }) => {
+    const profile = useSelector((state) => state.profile)
+    const [form, setForm] = useState({
+        email: profile.email,
+        items: [],
+        restaurantId: "",
+        customerId: profile.userId
+    });
+    const [restaurantData, setRestaurantData] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (showModal) {
+            handleRestaurantData();
+        }
+    }, [showModal]);
+
+    const handleRestaurantData = async () => {
+        try {
+            setLoading(true);
+            const response = await GetRestaurantsAPI();
+            if (Array.isArray(response.data)) {
+                setRestaurantData(response.data);
+            } else {
+                setRestaurantData([response.data]);
+            }
+            setLoading(false);
+        } catch (error) {
+            console.error("Error fetching restaurants:", error);
+            setLoading(false);
+        }
+    }
+
 
     return (
         <>
             <button
                 className="bg-white text-black active:bg-blue-500 font-bold px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                 type="button"
-                onClick={() => setShowModal(true)}
+                onClick={() => setShowModal(!showModal)}
             >
             </button>
             {showModal ? (
@@ -32,19 +66,41 @@ const OrderPopUp = () => {
                                             onClick={() => setShowModal(false)}
                                         >
                                             <span className="text-black opacity-7 h-6 w-6 text-3xl block bg-gray-400 py-0 rounded-full ">
-                                                x
+                                                <X />
                                             </span>
                                         </button>
                                     </div>
                                     <div className="p-6">
                                         <form className="bg-gray-200  pb-8">
                                             <label className="block text-black text-sm font-bold mb-1">
-                                                First Name
+                                                Email
                                             </label>
                                             <input
+                                                disabled={true}
                                                 className="shadow appearance-none border rounded w-full py-2 px-1 text-black"
+                                                value={form.email}
                                             />
-                                            {/* ... other form fields */}
+                                            <label className="mt-2 block text-black text-sm font-bold mb-1">
+                                                Selected Item
+                                            </label>
+                                            <input
+                                                disabled={true}
+                                                className="shadow appearance-none border rounded w-full py-2 px-1 text-black"
+                                                value={itemName}
+                                            />
+                                            <label className="mt-2 block text-black text-sm font-bold mb-1">
+                                                Restaurant Name
+                                            </label>
+                                            <select className="w-full p-1">
+                                                {loading ? (
+                                                    <option>Loading....</option>
+                                                ) : (
+                                                    restaurantData.map((res, index) => (
+                                                        <option key={index} value={res.name}>{res.name}</option>
+                                                    ))
+                                                )}
+                                            </select>
+
                                         </form>
                                     </div>
                                     <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">

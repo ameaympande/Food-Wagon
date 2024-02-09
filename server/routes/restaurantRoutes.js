@@ -9,6 +9,8 @@ router
   .patch(restaurantController.updateRestaurant)
   .delete(restaurantController.deleteRestaurant);
 
+router.get("/:id", restaurantController.getRestaurant);
+
 router.route("/menuitem").delete(restaurantController.removeMenuItem);
 
 module.exports = router;

@@ -1,90 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { MapPin } from "lucide-react";
 import Button from "../layout/Button";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import OrderPopUp from "../layout/OrderPopUp";
+import { GetRestaurantsAPI } from "../../apicalls/GetRestaurantsAPI";
 
-const data = [
-  {
-    itemImg:
-      "https://www.allrecipes.com/thmb/5JVfA7MxfTUPfRerQMdF-nGKsLY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/25473-the-perfect-basic-burger-DDMFS-4x3-56eaba3833fd4a26a82755bcd0be0c54.jpg",
-    itemName: "Classic Cheeseburger",
-    location: "Pimple Saudagar",
-    price: "120",
-  },
-  {
-    itemImg:
-      "https://hot-thai-kitchen.com/wp-content/uploads/2015/09/Toffee-cake-sm.jpg",
-    itemName: "Toffe's cake",
-    location: "Aundh",
-    price: "150",
-  },
-  {
-    itemImg:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQISDBoabcQjOUP7vSPTsh-4sCQeRBI-xcf8w",
-    itemName: "Dancake",
-    location: "Pimple Gurav",
-    price: "130",
-  },
-  {
-    itemImg:
-      "https://www.foodandwine.com/thmb/FruFDfmVzUgb6elux4DPifdmDb8=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/super-crispy-fried-chicken-sandwiches-2-FT-RECIPE0820-33643e5fe9d44932bdd0bb0d104d9a4b.jpg",
-    itemName: "Crispy sandwich",
-    location: "Deccan",
-    price: "110",
-  },
-  {
-    itemImg:
-      "https://www.allrecipes.com/thmb/G96Vc_7F5Dm0csJJb2STC6tO97k=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/79543-fried-rice-restaurant-style-mfs-49-79b33da67e2643e8b585972cd92c5821.jpg",
-    itemName: "Fried Rice",
-    location: "Deccan",
-    price: "110",
-  },
-  {
-    itemImg:
-      "https://www.allrecipes.com/thmb/5JVfA7MxfTUPfRerQMdF-nGKsLY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/25473-the-perfect-basic-burger-DDMFS-4x3-56eaba3833fd4a26a82755bcd0be0c54.jpg",
-    itemName: "Classic Cheeseburger",
-    location: "Pimple Saudagar",
-    price: "120",
-  },
-  {
-    itemImg:
-      "https://hot-thai-kitchen.com/wp-content/uploads/2015/09/Toffee-cake-sm.jpg",
-    itemName: "Toffe's cake",
-    location: "Aundh",
-    price: "150",
-  },
-  {
-    itemImg:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQISDBoabcQjOUP7vSPTsh-4sCQeRBI-xcf8w",
-    itemName: "Dancake",
-    location: "Pimple Gurav",
-    price: "130",
-  },
-  {
-    itemImg:
-      "https://www.foodandwine.com/thmb/FruFDfmVzUgb6elux4DPifdmDb8=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/super-crispy-fried-chicken-sandwiches-2-FT-RECIPE0820-33643e5fe9d44932bdd0bb0d104d9a4b.jpg",
-    itemName: "Crispy sandwich",
-    location: "Deccan",
-    price: "110",
-  },
-  {
-    itemImg:
-      "https://www.allrecipes.com/thmb/G96Vc_7F5Dm0csJJb2STC6tO97k=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/79543-fried-rice-restaurant-style-mfs-49-79b33da67e2643e8b585972cd92c5821.jpg",
-    itemName: "Fried Rice",
-    location: "Deccan",
-    price: "110",
-  },
-];
 const settings = {
   dots: true,
   infinite: true,
   speed: 500,
-  slidesToShow: 5,
+  slidesToShow: 4,
   slidesToScroll: 3,
   autoplay: true,
   autoplaySpeed: 3000,
@@ -112,59 +40,76 @@ const settings = {
     },
   ],
 };
+
 const PopularItemSection = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [selectedItemName, setSelectedItemName] = useState("");
   const navigate = useNavigate();
   const token = localStorage.getItem("token") || undefined;
-  const profile = useSelector((state) => state.profile);
-  console.log(profile);
+  const [data, setData] = useState([]);
 
+  useEffect(() => {
+    getRestaurantData();
+  }, []);
 
-  const handleOrderClick = () => {
-    if (!token) {
-      navigate("/signin");
+  async function getRestaurantData() {
+    try {
+      const response = await GetRestaurantsAPI();
+      if (response && response.data) {
+        setData(response.data);
+      } else {
+        console.error("Invalid response from API:", response);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
   }
+
+  const handleOrderClick = (itemName) => {
+    if (!token) {
+      navigate("/signin");
+    } else {
+      setSelectedItemName(itemName);
+      setShowModal(!showModal);
+    }
+  };
+
   return (
     <div className="bg-bg-hover-primary px-4 py-6 ">
       <div className="text-4xl md:text-6xl font-extrabold text-center">
         <p className="mb-10 mt-10">Popular items</p>
       </div>
-      <Slider {...settings} className=" p-6 flex items-center justify-center">
+      <Slider {...settings} className="p-6">
         {data.map((item, key) => (
-          <div key={key} className="mx-2">
-            <div>
+          <div key={key} className="px-2">
+            <div className="flex flex-col items-center justify-center mt-4">
               <img
-                src={item.itemImg}
+                src={item.backgroundImage}
                 alt={item.itemName}
-                className="w-56 h-56 rounded-2xl"
+                className="w-56 h-56 rounded-2xl mb-4"
               />
-            </div>
-            <div className="mt-5">
-              <div className="mt-3 text-wrap">
-                <h2 className="text-xl font-extrabold">{item.itemName}</h2>
+              <div className="text-center">
+                <h2 className="text-xl font-extrabold">{item.name}</h2>
+                <div className="flex items-center justify-center">
+                  <MapPin size={18} color="#fa6a41" absoluteStrokeWidth />
+                  <p className="ml-1 text-secondary">{item.address.city}, {item.address.street}</p>
+                </div>
               </div>
-              <div className="flex">
-                <MapPin size={18} color="#fa6a41" absoluteStrokeWidth />
-                <p className="ml-1 text-secondary">{item.location}</p>
+              <div className="mt-3">
+                <Button
+                  onClick={() => handleOrderClick(item.itemName)}
+                  buttonText="Order now"
+                  color="#ffb512"
+                  textColor="text-primary"
+                  style="p-2 bg-secondary hover:text-secondary"
+                  textStyle="ml-0"
+                />
               </div>
-              <p className="ml-1 text-lg font-extrabold"> ₹ {item.price}</p>
-            </div>
-            <div className="mt-3">
-              <Button
-                onClick={handleOrderClick}
-                buttonText="Order now"
-                color="#ffb512"
-                textColor="text-primary"
-                style="p-2 bg-secondary hover:text-secondary"
-                textStyle="ml-0"
-              />
             </div>
           </div>
         ))}
       </Slider>
-      <div className="bg-primary">
-        <OrderPopUp />
-      </div>
+      <OrderPopUp showModal={showModal} setShowModal={setShowModal} itemName={selectedItemName} />
     </div>
   );
 };
