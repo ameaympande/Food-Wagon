@@ -13,8 +13,7 @@ export const PlaceOrderAPI = async (form) => {
     const response = await axios.post(url, body);
 
     if (response && response.status === 201) {
-      console.log(response);
-      return response.data;
+      return response;
     } else {
       throw new Error(response.data.error);
     }

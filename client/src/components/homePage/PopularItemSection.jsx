@@ -110,6 +110,7 @@ const PopularItemSection = () => {
         ))}
       </Slider>
       <OrderPopUp showModal={showModal} setShowModal={setShowModal} item={selectedItemName} />
+
     </div>
   );
 };
