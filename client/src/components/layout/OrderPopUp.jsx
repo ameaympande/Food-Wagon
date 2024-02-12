@@ -4,30 +4,47 @@ import { useSelector, useDispatch } from "react-redux";
 import { GetRestaurantsAPI } from "../../apicalls/GetRestaurantAPI";
 import { setAddress } from "../../redux/features/profile/profileSlice";
 import { PlaceOrderAPI } from "../../apicalls/PlaceOrderAPI";
+import OrderPlacedAnimation from "./OrderPlaceAnimation";
+import OrderPlaced from "./OrderPlaceAnimation";
 
 const OrderPopUp = ({ showModal, setShowModal, item }) => {
     const dispatch = useDispatch();
-    const profile = useSelector((state) => state.profile)
+    const profile = useSelector((state) => state.profile);
+    const [restaurantData, setRestaurantData] = useState([]);
     const [form, setForm] = useState({
         email: profile.email,
         items: [{ MenuItemId: item._id, quantity: 1 }],
         selectedItem: "",
         restaurantId: "",
         customerId: profile.userId,
-        address: profile ? profile?.address : ""
+        address: profile ? profile.address : ""
     });
-    const [restaurantData, setRestaurantData] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState([])
+    const [showAnimation, setShowAnimation] = useState(false);
+    const [error, setError] = useState([]);
+
     useEffect(() => {
         if (showModal) {
             handleRestaurantData();
         }
     }, [showModal]);
 
+    useEffect(() => {
+        if (showAnimation) {
+            const timer = setTimeout(() => {
+                setShowAnimation(false);
+                setShowModal(false);
+
+            }, 3000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [showAnimation]);
+
     const handleOnChange = (e) => {
         const { name, value } = e.target;
         let updatedForm = { ...form };
+        setError([]);
 
         if (name === "selectedItem") {
             const selectedRestaurant = restaurantData.find(item => item.name === value);
@@ -55,8 +72,7 @@ const OrderPopUp = ({ showModal, setShowModal, item }) => {
         if (name === "address") {
             dispatch(setAddress(value));
         }
-    }
-
+    };
 
     const handleRestaurantData = async () => {
         try {
@@ -72,10 +88,11 @@ const OrderPopUp = ({ showModal, setShowModal, item }) => {
             console.error("Error fetching restaurants:", error);
             setLoading(false);
         }
-    }
+    };
 
     const handleSubmit = async () => {
-
+        console.log(form);
+        console.log(restaurantData[0].name);
         const errors = {};
 
         try {
@@ -92,92 +109,104 @@ const OrderPopUp = ({ showModal, setShowModal, item }) => {
             }
 
             setError([]);
+            const updatedForm = {
+                ...form,
+                items: [{ MenuItemId: item._id, quantity: form.items[0].quantity }]
+            };
 
-            console.log("Form submitted successfully:", form);
-            const res = await PlaceOrderAPI(form);
-            console.log(res);
+            console.log("Form submitted successfully:", updatedForm);
+            const res = await PlaceOrderAPI(updatedForm);
+            if (res.status === 201) {
+                setShowAnimation(true);
+            }
 
         } catch (error) {
             console.log(error);
         }
 
-    }
+    };
 
     return (
         <>
-            <button
-                className="bg-white text-black active:bg-blue-500 font-bold px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
-                type="button"
-                onClick={() => setShowModal(!showModal)}
-            >
-            </button>
-            {showModal ? (
-                <div className="fixed inset-0 z-50 overflow-hidden" style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
-                    <div className="flex items-center justify-center min-h-screen">
-                        <div className="relative w-full max-w-md">
-                            <div className="bg-bg-hover-primary rounded-lg shadow-lg overflow-y-auto max-h-screen">
-                                <div className="flex items-start justify-between p-10 border-b border-solid border-gray-300 rounded-t">
-                                    <div className="text-text-red text-4xl md:text-md font-extrabold text-center">
-                                        <p>Place Your Order</p>
-                                    </div>
-                                    <button className="text-black" onClick={() => setShowModal(false)}>
-                                        <span className="text-black opacity-7 h-6 w-6 text-3xl block bg-gray-400 py-0 rounded-full ">
-                                            <X />
-                                        </span>
-                                    </button>
-                                </div>
-                                <div className="p-6">
-                                    <form className="bg-gray-200 pb-8">
-                                        <label className="block text-black text-sm font-bold mb-1">
-                                            Email
-                                        </label>
-                                        <input disabled={true} className="shadow appearance-none border rounded w-full py-2 px-1 text-black" value={form.email} />
-                                        <label className="mt-2 block text-black text-sm font-bold mb-1">
-                                            Selected Item
-                                        </label>
-                                        <input disabled={true} className="shadow appearance-none border rounded w-full py-2 px-1 text-black" value={item.name} />
-                                        <label className="mt-2 block text-black text-sm font-bold mb-1">
-                                            Restaurant Name
-                                        </label>
-                                        <select name="selectedItem" className="w-full p-1" onChange={handleOnChange} value={form.selectedItem}>
-                                            {loading ? (
-                                                <option>Loading....</option>
-                                            ) : (
-                                                restaurantData.map((res, index) => (
-                                                    <option key={index} value={res.name}>{res.name}</option>
-                                                ))
-                                            )}
-                                        </select>
-                                        {error.selectedItem && <p className="text-text-red">{error.selectedItem}</p>}
-                                        <label className="mt-2 block text-black text-sm font-bold mb-1">
-                                            Address
-                                        </label>
-                                        <input name="address" className="shadow appearance-none border rounded w-full py-2 px-1 text-black" value={form.address} onChange={handleOnChange} />
-                                        {error.address && <p className="text-text-red">{error.address}</p>}
-                                        {form.items.map((item, index) => (
-                                            <div key={index}>
-                                                <label className="mt-2 block text-black text-sm font-bold mb-1">
-                                                    Quantity
-                                                </label>
-                                                <input name="quantity" type="number" min="1" data-index={index} className="shadow appearance-none border rounded w-full py-2 px-1 text-black" value={item.quantity} onChange={handleOnChange} />
+            {!showAnimation ?
+                (
+                    <>
+                        <button
+                            className="bg-white text-black active:bg-blue-500 font-bold px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                            type="button"
+                            onClick={() => setShowModal(!showModal)}
+                        >
+                        </button>
+                        {showModal ? (
+                            <div className="fixed inset-0 z-50 overflow-hidden" style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
+                                <div className="flex items-center justify-center min-h-screen">
+                                    <div className="relative w-full max-w-md">
+                                        <div className="bg-bg-hover-primary rounded-lg shadow-lg overflow-y-auto max-h-screen">
+                                            <div className="flex items-start justify-between p-10 border-b border-solid border-gray-300 rounded-t">
+                                                <div className="text-text-red text-4xl md:text-md font-extrabold text-center">
+                                                    <p>Place Your Order</p>
+                                                </div>
+                                                <button className="text-black" onClick={() => setShowModal(false)}>
+                                                    <span className="text-black opacity-7 h-6 w-6 text-3xl block bg-gray-400 py-0 rounded-full ">
+                                                        <X />
+                                                    </span>
+                                                </button>
                                             </div>
-                                        ))}
-                                    </form>
-                                </div>
-                                <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
-                                    <button className="text-primary bg-text-red background-transparent font-bold uppercase px-6 py-3 text-sm outline-none focus:outline-none mr-4 mb-1 rounded-lg hover:bg-red-200" type="button" onClick={() => setShowModal(false)}>
-                                        Close
-                                    </button>
-                                    <button className="text-primary bg-text-green active:bg-yellow-700 font-bold uppercase text-sm px-6 py-3 rounded-lg hover:shadow-lg focus:outline-none mr-1 mb-1" type="button" onClick={handleSubmit}>
-                                        <Check size={24} className="" />
-                                    </button>
+                                            <div className="p-6">
+                                                <form className="bg-gray-200 pb-8">
+                                                    <label className="block text-black text-sm font-bold mb-1">
+                                                        Email
+                                                    </label>
+                                                    <input disabled={true} className="shadow appearance-none border rounded w-full py-2 px-1 text-black" value={form.email} />
+                                                    <label className="mt-2 block text-black text-sm font-bold mb-1">
+                                                        Selected Item
+                                                    </label>
+                                                    <input disabled={true} className="shadow appearance-none border rounded w-full py-2 px-1 text-black" value={item.name} />
+                                                    <label className="mt-2 block text-black text-sm font-bold mb-1">
+                                                        Restaurant Name
+                                                    </label>
+                                                    <select name="selectedItem" className="w-full p-1" onChange={handleOnChange} value={form.selectedItem}>
+                                                        {loading ? (
+                                                            <option>Loading....</option>
+                                                        ) : (
+                                                            restaurantData.map((res, index) => (
+                                                                <option key={index} value={res.name}>{res.name}</option>
+                                                            ))
+                                                        )}
+                                                    </select>
+                                                    {error.selectedItem && <p className="text-text-red">{error.selectedItem}</p>}
+                                                    <label className="mt-2 block text-black text-sm font-bold mb-1">
+                                                        Address
+                                                    </label>
+                                                    <input name="address" className="shadow appearance-none border rounded w-full py-2 px-1 text-black" value={form.address} onChange={handleOnChange} />
+                                                    {error.address && <p className="text-text-red">{error.address}</p>}
+                                                    {form.items.map((item, index) => (
+                                                        <div key={index}>
+                                                            <label className="mt-2 block text-black text-sm font-bold mb-1">
+                                                                Quantity
+                                                            </label>
+                                                            <input name="quantity" type="number" min="1" data-index={index} className="shadow appearance-none border rounded w-full py-2 px-1 text-black" value={item.quantity} onChange={handleOnChange} />
+                                                        </div>
+                                                    ))}
+                                                </form>
+                                            </div>
+                                            <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+                                                <button className="text-primary bg-text-red background-transparent font-bold uppercase px-6 py-3 text-sm outline-none focus:outline-none mr-4 mb-1 rounded-lg hover:bg-red-200" type="button" onClick={() => setShowModal(false)}>
+                                                    Close
+                                                </button>
+                                                <button className="text-primary bg-text-green active:bg-yellow-700 font-bold uppercase text-sm px-6 py-3 rounded-lg hover:shadow-lg focus:outline-none mr-1 mb-1" type="button" onClick={handleSubmit}>
+                                                    <Check size={24} className="" />
+                                                </button>
 
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            ) : null}
+                        ) : null}
+                    </>
+                ) : (<OrderPlaced showAnimation={showAnimation} />)
+            }
         </>
     );
 };
