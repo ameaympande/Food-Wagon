@@ -112,13 +112,13 @@ const deleteOrder = asyncHandler(async (req, res) => {
   const { id } = req.body;
 
   if (!id) {
-    res.status(400).json({ message: "Order Id is required." });
+    return res.status(400).json({ message: "Order Id is required." });
   }
 
   const order = await Order.findById(id).exec();
 
   if (!order) {
-    res.status(404).json({ message: "Order not found." });
+    return res.status(404).json({ message: "Order not found." });
   }
 
   const message = `Order with id ${order._id} has been deleted.`;

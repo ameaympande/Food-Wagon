@@ -6,7 +6,7 @@ import { MapPin } from "lucide-react";
 import Button from "../layout/Button";
 import { useNavigate } from "react-router-dom";
 import OrderPopUp from "../layout/OrderPopUp";
-import { GetRestaurantsAPI } from "../../apicalls/GetRestaurantsAPI";
+import { GetMenuAPI } from "../../apicalls/GetMenuAPI";
 
 const settings = {
   dots: true,
@@ -54,9 +54,9 @@ const PopularItemSection = () => {
 
   async function getRestaurantData() {
     try {
-      const response = await GetRestaurantsAPI();
-      if (response && response.data) {
-        setData(response.data);
+      const response = await GetMenuAPI();
+      if (response) {
+        setData(response);
       } else {
         console.error("Invalid response from API:", response);
       }
@@ -65,11 +65,11 @@ const PopularItemSection = () => {
     }
   }
 
-  const handleOrderClick = (itemName) => {
+  const handleOrderClick = (item) => {
     if (!token) {
       navigate("/signin");
     } else {
-      setSelectedItemName(itemName);
+      setSelectedItemName(item);
       setShowModal(!showModal);
     }
   };
@@ -79,7 +79,7 @@ const PopularItemSection = () => {
       <div className="text-4xl md:text-6xl font-extrabold text-center">
         <p className="mb-10 mt-10">Popular items</p>
       </div>
-      <Slider {...settings} className="p-6">
+      <Slider {...settings} className="p-4">
         {data.map((item, key) => (
           <div key={key} className="px-2">
             <div className="flex flex-col items-center justify-center mt-4">
@@ -92,12 +92,12 @@ const PopularItemSection = () => {
                 <h2 className="text-xl font-extrabold">{item.name}</h2>
                 <div className="flex items-center justify-center">
                   <MapPin size={18} color="#fa6a41" absoluteStrokeWidth />
-                  <p className="ml-1 text-secondary">{item.address.city}, {item.address.street}</p>
+                  {/* <p className="ml-1 text-secondary">{item.address.city}, {item.address.street}</p> */}
                 </div>
               </div>
               <div className="mt-3">
                 <Button
-                  onClick={() => handleOrderClick(item.itemName)}
+                  onClick={() => handleOrderClick(item)}
                   buttonText="Order now"
                   color="#ffb512"
                   textColor="text-primary"
@@ -109,7 +109,7 @@ const PopularItemSection = () => {
           </div>
         ))}
       </Slider>
-      <OrderPopUp showModal={showModal} setShowModal={setShowModal} itemName={selectedItemName} />
+      <OrderPopUp showModal={showModal} setShowModal={setShowModal} item={selectedItemName} />
     </div>
   );
 };

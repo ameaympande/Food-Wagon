@@ -21,6 +21,10 @@ const menuItemSchema = new mongoose.Schema(
       type: String,
       contentType: String,
     },
+    restaurantName: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Restaurant",
+    },
   },
   { timestamps: true }
 );

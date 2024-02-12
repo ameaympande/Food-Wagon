@@ -100,6 +100,12 @@ const createRestaurant = asyncHandler(async (req, res) => {
     }
   }
 
+  if (!isValidEmail(email)) {
+    return res
+      .status(400)
+      .json({ message: "Please enter a correct Email address." });
+  }
+
   const newRestaurant = new Restaurant({
     name,
     address: {
@@ -118,12 +124,6 @@ const createRestaurant = asyncHandler(async (req, res) => {
     offerDaysLeft,
     backgroundImage,
   });
-
-  if (!isValidEmail(email)) {
-    return res
-      .status(400)
-      .json({ message: "Please enter a correct Email address." });
-  }
 
   if (req.file) {
     const backgroundImage = {
