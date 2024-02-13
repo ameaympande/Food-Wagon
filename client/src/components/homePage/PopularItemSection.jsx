@@ -48,6 +48,7 @@ const PopularItemSection = () => {
   const token = localStorage.getItem("token") || undefined;
   const [data, setData] = useState([]);
 
+
   useEffect(() => {
     getRestaurantData();
   }, []);
@@ -56,6 +57,7 @@ const PopularItemSection = () => {
     try {
       const response = await GetMenuAPI();
       if (response) {
+        console.log(response);
         setData(response);
       } else {
         console.error("Invalid response from API:", response);
@@ -80,7 +82,7 @@ const PopularItemSection = () => {
         <p className="mb-10 mt-10">Popular items</p>
       </div>
       <Slider {...settings} className="p-4">
-        {data.map((item, key) => (
+        {Array.isArray(data) && data.map((item, key) => (
           <div key={key} className="px-2">
             <div className="flex flex-col items-center justify-center mt-4">
               <img
