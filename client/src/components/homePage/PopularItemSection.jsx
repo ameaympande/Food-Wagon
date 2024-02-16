@@ -7,6 +7,7 @@ import Button from "../layout/Button";
 import { useNavigate } from "react-router-dom";
 import OrderPopUp from "../layout/OrderPopUp";
 import { GetMenuAPI } from "../../apicalls/GetMenuAPI";
+import { useSelector } from "react-redux";
 
 const settings = {
   dots: true,
@@ -42,6 +43,7 @@ const settings = {
 };
 
 const PopularItemSection = () => {
+  const profile = useSelector((state) => state.profile);
   const [showModal, setShowModal] = useState(false);
   const [selectedItemName, setSelectedItemName] = useState("");
   const navigate = useNavigate();
@@ -68,7 +70,7 @@ const PopularItemSection = () => {
   }
 
   const handleOrderClick = (item) => {
-    if (!token) {
+    if (!token || !profile.email) {
       navigate("/signin");
     } else {
       setSelectedItemName(item);
