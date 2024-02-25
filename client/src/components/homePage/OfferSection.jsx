@@ -45,7 +45,7 @@ const OfferSection = () => {
 
   const reqOfferData = async () => {
     try {
-      const response = await fetch("http://localhost:3500/restaurant/");
+      const response = await fetch("https://food-wagon-server.onrender.com/restaurant/");
       const responseData = await response.json();
       setData(responseData?.data);
     } catch (err) {
