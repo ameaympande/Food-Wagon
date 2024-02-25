@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const GetMenuAPI = async (id) => {
-  let url = "http://localhost:3500/menuitem/";
+  let url = "https://food-wagon-server.onrender.com/menuitem/";
 
   if (id) {
     url += id;
