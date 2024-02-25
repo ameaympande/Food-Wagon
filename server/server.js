@@ -11,6 +11,7 @@ const errorHandler = require("./middleware/errorHandler");
 const auth = require("./auth/authHelper");
 
 const PORT = process.env.PORT;
+const ENV = process.env.ENV;
 
 connectDB();
 
@@ -42,7 +43,7 @@ app.use(errorHandler);
 
 mongoose.connection.once("open", () => {
   app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is running on port ${PORT} with ${ENV} Envirnomant`);
   });
 });
 
