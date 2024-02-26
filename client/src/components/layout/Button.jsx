@@ -8,7 +8,6 @@ const Button = ({
   size = 20,
   textColor = "slate-500",
   style,
-  textStyle = "ml-4",
   bgColor = "bg-bg-primary",
   textStyle = "ml-4 mr-4",
 }) => {
