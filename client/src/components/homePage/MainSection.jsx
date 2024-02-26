@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "../layout/Button";
 import { Bike, ShoppingBag, MapPin, Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const MainSection = () => {
   const navigate = useNavigate();
+  const [orderType, setOrderType] = useState("Delivery")
   return (
     <div className="flex flex-col md:flex-row bg-primary">
       <div className="md:w-2/3 py-10 px-6 md:py-20 md:px-14 flex flex-col">
@@ -16,20 +17,22 @@ const MainSection = () => {
           <div className="flex flex-row  gap-2">
             <div>
               <Button
-                onClick={() => console.log("clicked")}
+                onClick={() => setOrderType("Delivery")}
                 buttonText="Delivery"
                 userIcon={Bike}
-                color="#f07229"
+                color="black"
                 size={24}
+                bgColor={orderType === "Delivery" && "bg-secondary"}
               />
             </div>
             <div>
               <Button
-                onClick={() => console.log("clicked")}
+                onClick={() => setOrderType("Pickup")}
                 buttonText="Pickup"
                 userIcon={ShoppingBag}
-                color="#f07229"
+                color="black"
                 size={24}
+                bgColor={orderType === "Pickup" && "bg-secondary"}
               />
             </div>
           </div>
