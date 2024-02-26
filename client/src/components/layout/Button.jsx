@@ -10,11 +10,12 @@ const Button = ({
   textColor = "slate-500",
   style,
   textStyle = "ml-4",
+  bgColor = "bg-bg-primary"
 }) => {
   return (
     <button
       onClick={onClick}
-      className={`shadow-2xl border-red flex flex-row bg-bg-primary text-${textColor} py-2 px-2 rounded-md hover:bg-bg-hover-primary font-semibold ${style}`}
+      className={`shadow-2xl border-red flex flex-row ${bgColor} text-${textColor} py-2 px-2 rounded-md hover:bg-bg-hover-secondary font-semibold ${style}`}
     >
       {UserIcon && <UserIcon size={size} color={color} />}
       <span className={textStyle}>{buttonText}</span>
