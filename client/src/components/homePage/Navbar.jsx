@@ -1,4 +1,4 @@
-import { MapPin, UserIcon, AlignJustify } from "lucide-react";
+import { MapPin, UserIcon, AlignJustify, Search } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../layout/Button";
@@ -98,6 +98,18 @@ const Navbar = ({ data }) => {
               placeholder="Search food"
             />
           </div>
+          <div className="mr-5">
+              <Button
+                // onClick={() => {
+                //   navigate("/signin");
+                // }}
+                buttonText="Search"
+                userIcon={Search}
+                color="#ffb512"
+                textColor="text-primary"
+                style="p-4  bg-secondary hover:text-secondary"
+              />
+            </div>
         </div>
         <div className="md:block hidden mr-5">
           <Button

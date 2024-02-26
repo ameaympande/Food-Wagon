@@ -1,4 +1,3 @@
-
 import React from "react";
 
 const Button = ({
@@ -10,7 +9,8 @@ const Button = ({
   textColor = "slate-500",
   style,
   textStyle = "ml-4",
-  bgColor = "bg-bg-primary"
+  bgColor = "bg-bg-primary",
+  textStyle = "ml-4 mr-4",
 }) => {
   return (
     <button
