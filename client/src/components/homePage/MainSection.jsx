@@ -23,6 +23,8 @@ const MainSection = () => {
                 color="black"
                 size={24}
                 bgColor={orderType === "Delivery" && "bg-secondary"}
+                hoverColor="hover:bg-secondary"
+                
               />
             </div>
             <div>
@@ -33,6 +35,7 @@ const MainSection = () => {
                 color="black"
                 size={24}
                 bgColor={orderType === "Pickup" && "bg-secondary"}
+                hoverColor="hover:bg-secondary"
               />
             </div>
           </div>
@@ -58,6 +61,7 @@ const MainSection = () => {
                 color="#ffb512"
                 textColor="text-primary"
                 style="p-4  bg-secondary hover:text-secondary"
+
               />
             </div>
           </div>

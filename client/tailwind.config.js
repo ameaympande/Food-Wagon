@@ -39,6 +39,7 @@ module.exports = {
       "text-green": "green",
       "bg-primary": "#fefeff",
       "bg-hover-primary": "#fcebdf",
+      "hover-white": "white",
 
       slate: {
         50: "rgb(248, 250, 252)",
