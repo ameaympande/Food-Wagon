@@ -48,9 +48,11 @@ const Navbar = ({ data }) => {
         </div>
         <div
           ref={sidebarRef}
-          className="relative flex items-center ml-2 md:hidden"
+          className="relative flex items-center ml-2 mr-2 md:hidden"
+          onClick={toggleSidebar}
         >
-          <Button onClick={toggleSidebar} userIcon={AlignJustify} />
+          <AlignJustify />
+
 
           {isSidebarOpen && (
             <div className="absolute top-10 right-0 flex flex-col items-center bg-white bg-opacity-90 p-4 gap-5 bg-bg-primary">
@@ -91,29 +93,11 @@ const Navbar = ({ data }) => {
             <span className="ml-2 text-black font-bold ">{data.address.village} , {data.address.state} , {data.address.state_district}</span>
           )}
 
-          <div className="ml-4 flex-grow ">
-            <input
-              className="w-full bg-bg-primary px-2 py-1"
-              type="text"
-              placeholder="Search food"
-            />
-          </div>
-          <div className="mr-5">
-              <Button
-                // onClick={() => {
-                //   navigate("/signin");
-                // }}
-                buttonText="Search"
-                userIcon={Search}
-                color="#ffb512"
-                textColor="text-primary"
-                style="p-4  bg-secondary hover:text-secondary"
-              />
-            </div>
         </div>
-        <div className="md:block hidden mr-5">
+        <div className="md:block hidden">
           <Button
             onClick={() => {
+              toggleSidebar();
               if (!profile?.email)
                 navigate("/signin");
             }}

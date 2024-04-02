@@ -20,7 +20,7 @@ const login = asyncHandler(async (req, res) => {
 
   if (!user) {
     return res
-      .status(400)
+      .status(404)
       .json({ error: "User not found, please create a new account." });
   }
 

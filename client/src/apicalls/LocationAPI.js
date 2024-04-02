@@ -1,14 +1,9 @@
 import axios from "axios";
 
-const weatherCall = async (location) => {
-  let url = "";
+const weatherCall = async (longitude, latitude) => {
   const apiKey = "WJTBUGMRSMU65YJ8CYVL5NM6J";
 
-  if (location && location.latitude && location.longitude) {
-    url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location.latitude},${location.longitude}?unitGroup=us&key=${apiKey}`;
-  } else {
-    url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=us&key=${apiKey}`;
-  }
+  let url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${latitude},${longitude}?unitGroup=us&key=${apiKey}`;
 
   try {
     const response = await axios.get(url);
